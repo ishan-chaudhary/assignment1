@@ -2,15 +2,16 @@ var currentActiveNode = null;
 var currentImageIndex = 0;
 
 var makeInt = function (value) {
-  if(typeof(value)==='string'){
-      value = Number(value.replace(/[^0-9\.]+/g,""));
+  if(typeof(value)==='string'){ // The value returend is of string type. e.g.12.8px
+      value = Number(value.replace(/[^0-9\.]+/g,""));  // This regex expression replaces every character which neither a number nor a decimal point.
   }
-  var int = parseInt(value, 10);
+  var int = parseInt(value, 10); // This parses the decimal pointer into int with base 10.
   return int;
 };
 
 function getLetterSpacing(previewTextHolder){
-    let temp = window.getComputedStyle(previewTextHolder, null).getPropertyValue('letter-spacing');
+    // As we have used external .css file thus we need to use window.getComputedStyle and not simple element.style to get value of a property.
+    let temp = window.getComputedStyle(previewTextHolder, null).getPropertyValue('letter-spacing'); // This fetches the letter-spacing property.
     if(temp=='normal'){
         temp = 0;
     }else{
@@ -19,20 +20,32 @@ function getLetterSpacing(previewTextHolder){
     return temp;
 }
 
-function truncate(previewRow, previewTextHolder, previewText) {
+function truncate(previewTextHolder, previewText) {
   var numChars = 0;
   let elFontSize = window
     .getComputedStyle(previewTextHolder, null)
-    .getPropertyValue("font-size");
+    .getPropertyValue("font-size"); // Getting font-size property of the span containing the text
+
   let temp = getLetterSpacing(previewTextHolder);
   var letterSpace = makeInt(elFontSize) + temp;
-  var boxCenter = makeInt(previewRow.scrollWidth) / 2;
+
+  var boxCenter = makeInt(previewTextHolder.scrollWidth) / 2; // Get the width of the span element
+  /*
+    Logic for deciding number of characters
+        We first calculated how much space a character takes.
+        Our put string will be of the form 
+            x + y + z = width of span;
+            where x and z are the lenths of the character at the end and begining and y is the ellipse character.
+        Therefore in order to calculate the number of characters at the end and the starting of the string we would run the followinf for loop.
+        Now we check if the space taken by letters is greater than the width of the parent span element.
+        If yes then we truncate the the string into our format.
+  */ 
   for (var l = letterSpace * 2; l < boxCenter; l += letterSpace) {
     numChars = numChars + 1;
   }
 
   if (
-    letterSpace * previewText.length > previewRow.scrollWidth &&
+    letterSpace * previewText.length > previewTextHolder.scrollWidth &&
     2 * numChars + 4 < previewText.length
   ) {
     return (
@@ -85,7 +98,7 @@ window.onload = function () {
     previewRow.appendChild(previewText);
     previewContainer.appendChild(previewRow);
 
-    previewText.innerText = truncate(previewRow,previewText,images[image].title);
+    previewText.innerText = truncate(previewText,images[image].title);
   }
 
   catchKeyStroke();
