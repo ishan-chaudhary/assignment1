@@ -66,6 +66,7 @@ body{
     vertical-align: middle;
     padding: 2px;
     margin-right: 20px;
+    letter-spacing: inherit;
 }
 
 .active{
