@@ -1,6 +1,13 @@
 var currentActiveNode = null;
 var currentImageIndex = 0;
 
+function truncateString(str) {
+  if (str.length > 35) {
+    return str.substr(0, 15).trim() + "....." + str.substr(str.length - 13, str.length);
+  }
+  return str;
+}
+
 window.onload = function () { // Waiting for DOM to load
   var previewContainer =
     document.getElementsByClassName("preview-container")[0]; // Select Preview Container
@@ -34,7 +41,7 @@ window.onload = function () { // Waiting for DOM to load
 
     let previewText = document.createElement("span");
     previewText.setAttribute("class", "preview-text");
-    previewText.innerText = images[image].title;
+    previewText.innerText = truncateString(images[image].title);
 
     previewRow.appendChild(previewImage);  // appending out newly created node elements to the DOM parent
     previewRow.appendChild(previewText);
