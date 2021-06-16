@@ -48,6 +48,7 @@ body{
     margin-top: 5px;
     display: table;
     width: 100%;
+    table-layout: fixed;
 }
 
 .preview-image{
