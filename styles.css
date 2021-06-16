@@ -67,6 +67,7 @@ body{
     padding: 2px;
     margin-right: 20px;
     letter-spacing: inherit;
+    width: auto;
 }
 
 .active{
@@ -77,4 +78,20 @@ body{
 #image-out-title{
     text-align: center;
     font-size: 1rem;
+}
+
+.preview-text span {
+    white-space: nowrap;
+    overflow: hidden;
+    display:inline-block;
+    font-size: 12px;
+}
+.preview-text span:first-child {
+    max-width: 40%;
+    text-overflow: ellipsis;
+}
+.preview-text span + span {
+    max-width: 40%;
+    direction:rtl;
+    text-align:right;
 }
